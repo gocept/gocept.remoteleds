@@ -8,15 +8,17 @@ import client
 import config
 
 
-SNR = "7523233343535130C120"
 BAUD = 9600
 SCAN_DELAY_IN_S = 1
 
 
 def main():
+    cfg = config.Config()
+    cfg.load()
+
     dev = None
     while dev is None:
-        dev = discover()
+        dev = discover(cfg.serial_number)
         time.sleep(SCAN_DELAY_IN_S)
 
     if dev is not None:
@@ -35,8 +37,13 @@ def main():
                 time.sleep(0.1)
             print("Connection ready")
 
-            cfg = config.Config.load_config(connection)
-            clients = cfg.clients
+            clients = []
+            for client_cfg in cfg.clients:
+                if config.JENKINS in client_cfg['type']:
+                    clients.append(client.JenkinsClient(
+                        connection=connection, baseurl=client_cfg['baseurl'],
+                        user=client_cfg['user'], passwd=client_cfg['password'],
+                        projects=client_cfg['projects']))
 
             while True:
                 for cli in clients:
@@ -48,10 +55,10 @@ def main():
             print(e)
 
 
-def discover():
+def discover(serial_number):
     comports = list(serial.tools.list_ports.comports())
     for port in comports:
-        if "SNR={}".format(SNR) in port[2]:
+        if "SNR={}".format(serial_number) in port[2]:
             return port[0]
     return None
 
