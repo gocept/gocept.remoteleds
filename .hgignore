@@ -5,3 +5,5 @@ bin/
 include/
 .Python
 *.pyc
+
+config.ini
