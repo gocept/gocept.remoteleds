@@ -20,25 +20,32 @@ def main():
 
     if dev is not None:
         try:
-            ser = serial.Serial(dev, BAUD)
+            connection = serial.Serial(dev, BAUD)
+
             print("Waiting for Handshake")
-            while (ser.readline().strip() != 'PING'):
+            while (connection.readline().strip() != 'PING'):
                 time.sleep(0.1)
-            ser.write("1\n")
-            print("Answered Handshake")
-            ser.flushInput()
-            while ("READY" not in ser.readline()):
+
+            print("Answer Handshake")
+            connection.write("1\n")
+            connection.flushInput()
+
+            while ("READY" not in connection.readline()):
                 time.sleep(0.1)
             print("Connection ready")
-            clt = client.JenkinsClient(
-                ser,
+
+            clients = []
+            clients.append(client.JenkinsClient(
+                connection,
                 baseurl="https://builds.gocept.com",
-                projects={'pycountry': 1, 'gocept.jsform': 2})
-            for i in range(100):
-                print("Update client")
-                clt.update()
-                time.sleep(1)
-            ser.close()
+                projects={'pycountry': 1, 'gocept.jsform': 2}))
+
+            while True:
+                for cli in clients:
+                    print("Update {}".format(cli.__class__.__name__))
+                    cli.update()
+                time.sleep(5)
+            connection.close()
         except serial.serialutil.SerialException as e:
             print(e)
 
