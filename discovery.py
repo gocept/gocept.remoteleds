@@ -4,6 +4,7 @@
 import serial
 import serial.tools.list_ports
 import time
+import client
 
 
 SNR = "7523233343535130C120"
@@ -17,21 +18,26 @@ def main():
         dev = discover()
         time.sleep(SCAN_DELAY_IN_S)
 
-    print dev
     if dev is not None:
         try:
             ser = serial.Serial(dev, BAUD)
+            print("Waiting for Handshake")
             while (ser.readline().strip() != 'PING'):
                 time.sleep(0.1)
             ser.write("1\n")
+            print("Answered Handshake")
+            ser.flushInput()
             while ("READY" not in ser.readline()):
                 time.sleep(0.1)
-            for y in range(0, 256):
-                for i in range(0, 14):
-                    if i - 1 > 0:
-                        ser.write("LED%02d%03d%03d000\n" % (i - 1, 0, 0))
-                    ser.write("LED%02d%03d%03d000\n" % (i, y, y))
-            ser.flushInput()
+            print("Connection ready")
+            clt = client.JenkinsClient(
+                ser,
+                baseurl="https://builds.gocept.com",
+                projects={'pycountry': 1, 'gocept.jsform': 2})
+            for i in range(100):
+                print("Update client")
+                clt.update()
+                time.sleep(1)
             ser.close()
         except serial.serialutil.SerialException as e:
             print(e)
