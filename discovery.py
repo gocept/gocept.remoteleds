@@ -6,7 +6,7 @@ import serial.tools.list_ports
 import time
 
 
-(VID, PID) = ("2341", "0001")
+SNR = "7523233343535130C120"
 BAUD = 9600
 SCAN_DELAY_IN_S = 1
 
@@ -35,9 +35,7 @@ def main():
 def discover():
     comports = list(serial.tools.list_ports.comports())
     for port in comports:
-        hardware_ID_split = port[2].split()
-        if len(hardware_ID_split) == 3 and\
-           hardware_ID_split[1] == "VID:PID=%s:%s" % (VID, PID):
+        if "SNR={}".format(SNR) in port[2]:
             return port[0]
     return None
 
