@@ -1,0 +1,6 @@
+syntax: glob
+
+lib/
+bin/
+include/
+.Python
