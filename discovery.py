@@ -5,6 +5,7 @@ import serial
 import serial.tools.list_ports
 import time
 import client
+import config
 
 
 SNR = "7523233343535130C120"
@@ -34,12 +35,8 @@ def main():
                 time.sleep(0.1)
             print("Connection ready")
 
-            clients = []
-            clients.append(client.JenkinsClient(
-                connection,
-                baseurl="https://builds.gocept.com",
-                projects=[client.Project('pycountry', led=1),
-                          client.Project('gocept.jsform', led=2)]))
+            cfg = config.Config.load_config(connection)
+            clients = cfg.clients
 
             while True:
                 for cli in clients:

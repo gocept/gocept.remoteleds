@@ -12,6 +12,8 @@ SNR = "SNR"
 LEDCOUNT = "ledcount"
 BASEURL = "baseurl"
 TYPE = "type"
+USER = "user"
+PASSWORD = "password"
 JENKINS = "jenkins"
 
 
@@ -24,7 +26,7 @@ class Config(object):
         self.clients = clients
 
     @staticmethod
-    def load_config(path, connection=None):
+    def load_config(connection, path='config.ini'):
         config = ConfigParser.SafeConfigParser()
         config.read(path)
         sections = config.sections()
@@ -37,21 +39,24 @@ class Config(object):
 
         led_numbers = range(0, led_count)
 
-        clients = list()
+        clients = []
         for client_name in client_names:
             typ = config.get(client_name, TYPE)
+            user = None
+            password = None
+            if (config.has_option(client_name, USER)
+                    and config.has_option(client_name, PASSWORD)):
+                user = config.get(client_name, USER)
+                password = config.get(client_name, PASSWORD)
             baseurl = config.get(client_name, BASEURL)
-            projects = dict()
+            projects = []
             for led_nr in led_numbers:
-                try:
-                    project = config.get(client_name, "led{}".format(led_nr))
-                    projects[project] = led_nr
-                except ConfigParser.NoOptionError as e:
-                    pass
+                led_name = "led{}".format(led_nr)
+                if config.has_option(client_name, led_name):
+                    project = config.get(client_name, led_name)
+                    projects.append(client.Project(name=project, led=led_nr))
             if typ == JENKINS:
-                clients.append(client.JenkinsClient(connection, baseurl, projects))
-            else:
-                clients.append(client.Client(connection, baseurl, projects))
+                clients.append(client.JenkinsClient(connection, baseurl, projects, user, password))
         return Config(snr, led_count, clients)
 
     def __str__(self):
