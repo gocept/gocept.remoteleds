@@ -32,6 +32,7 @@ def main():
         except serial.serialutil.SerialException as e:
             print(e)
 
+
 def discover():
     comports = list(serial.tools.list_ports.comports())
     for port in comports:
@@ -40,8 +41,5 @@ def discover():
     return None
 
 
-
-
 if __name__ == '__main__':
     main()
-
