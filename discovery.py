@@ -38,7 +38,8 @@ def main():
             clients.append(client.JenkinsClient(
                 connection,
                 baseurl="https://builds.gocept.com",
-                projects={'pycountry': 1, 'gocept.jsform': 2}))
+                projects=[client.Project('pycountry', led=1),
+                          client.Project('gocept.jsform', led=2)]))
 
             while True:
                 for cli in clients:
