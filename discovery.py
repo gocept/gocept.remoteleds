@@ -21,7 +21,11 @@ def main():
     if dev is not None:
         try:
             ser = serial.Serial(dev, BAUD)
-            time.sleep(5)
+            while (ser.readline().strip() != 'PING'):
+                time.sleep(0.1)
+            ser.write("1\n")
+            while ("READY" not in ser.readline()):
+                time.sleep(0.1)
             for y in range(0, 256):
                 for i in range(0, 14):
                     if i - 1 > 0:

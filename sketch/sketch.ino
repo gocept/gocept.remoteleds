@@ -28,20 +28,20 @@ void setup() {
   strip.show(); // Initialize all pixels to 'off'
   Serial.begin(9600);
   while (!handshaken) {
-    delay(100);
+    delay(1000);
     heartbeat();
     while (Serial.available()) {
       ack = Serial.read();
       if (ack == '1') {
         handshaken = true;
-        Serial.println('Handshake complete. Ready to consume commands.');
+        Serial.println("READY");
       }
     }
   }
 }
 
 void heartbeat() {
-  Serial.println('PING');
+  Serial.println("PING");
 }
 
 
