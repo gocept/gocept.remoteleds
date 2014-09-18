@@ -10,12 +10,11 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(14, PIN, NEO_GRB + NEO_KHZ800);
-uint8_t wait = 50;
-
+boolean handshaken = false;
 
 #define MAXWIDTH 50
 char row[MAXWIDTH];
-
+char ack;
 
 void set_led(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
   uint32_t color = strip.Color(r, g, b);
@@ -28,7 +27,23 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
   Serial.begin(9600);
+  while (!handshaken) {
+    delay(100);
+    heartbeat();
+    while (Serial.available()) {
+      ack = Serial.read();
+      if (ack == '1') {
+        handshaken = true;
+        Serial.println('Handshake complete. Ready to consume commands.');
+      }
+    }
+  }
 }
+
+void heartbeat() {
+  Serial.println('PING');
+}
+
 
 void loop() {
 }
@@ -46,7 +61,6 @@ int pos = 0;
 void serialEvent() {
     Serial.readBytesUntil('\n', row, MAXWIDTH);
     parse_command();
-
     for (int i = 0; i < MAXWIDTH; i++)
     {
       row[i] = 0;
