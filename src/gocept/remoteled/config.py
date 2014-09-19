@@ -3,7 +3,7 @@
 
 
 import ConfigParser
-import client
+import gocept.remoteled.client
 
 
 CONFIG = "config"
@@ -66,7 +66,8 @@ class Config(object):
             led_name = "led{}".format(led_nr)
             if self.config.has_option(name, led_name):
                 project = self.config.get(name, led_name)
-                projects.append(client.Project(name=project, led=led_nr))
+                projects.append(
+                    gocept.remoteled.client.Project(name=project, led=led_nr))
         return projects
 
     def __str__(self):

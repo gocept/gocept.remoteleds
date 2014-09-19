@@ -4,8 +4,8 @@
 import serial
 import serial.tools.list_ports
 import time
-import client
-import config
+import gocept.remoteled.client
+import gocept.remoteled.config
 
 
 BAUD = 9600
@@ -13,7 +13,7 @@ SCAN_DELAY_IN_S = 1
 
 
 def main():
-    cfg = config.Config()
+    cfg = gocept.remoteled.config.Config()
     cfg.load()
 
     dev = None
@@ -39,8 +39,8 @@ def main():
 
             clients = []
             for client_cfg in cfg.clients:
-                if config.JENKINS in client_cfg['type']:
-                    clients.append(client.JenkinsClient(
+                if gocept.remoteled.config.JENKINS in client_cfg['type']:
+                    clients.append(gocept.remoteled.client.JenkinsClient(
                         connection=connection, baseurl=client_cfg['baseurl'],
                         user=client_cfg['user'], passwd=client_cfg['password'],
                         projects=client_cfg['projects']))

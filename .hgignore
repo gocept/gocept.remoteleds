@@ -2,8 +2,11 @@ syntax: glob
 
 lib/
 bin/
+build/
+dist/
 include/
 .Python
 *.pyc
+*.egg-info/
 
 config.ini
