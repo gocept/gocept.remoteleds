@@ -3,7 +3,6 @@
 
 import serial
 import serial.tools.list_ports
-import sys
 import time
 import client
 import config
@@ -15,8 +14,7 @@ SCAN_DELAY_IN_S = 1
 
 def main():
     cfg = config.Config()
-    if not cfg.load():
-        sys.exit(1)
+    cfg.load()
 
     dev = None
     while dev is None:

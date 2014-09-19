@@ -35,10 +35,8 @@ class Config(object):
 
             self.read_base_configuration()
             self.read_client_configurations()
-            return True
         else:
-            print("No config file named {} found! See example.ini to get started!".format(self.path))
-            return False
+            raise IOError("No config file named {} found! See example.ini to get started!".format(self.path))
 
     def read_base_configuration(self):
         self.serial_number = self.config.get(CONFIG, SNR)
