@@ -24,14 +24,13 @@ int num;
 void set_led(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
   uint32_t color = strip.Color(r, g, b);
   strip.setPixelColor(index, color);
-  strip.show();
 }
 
 
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
-  Serial.begin(9600);
+  Serial.begin(38400);
   while (!handshaken) {
     delay(1000);
     heartbeat();
@@ -59,6 +58,9 @@ void parse_command() {
   }
   if (strrow.startsWith("SND", 0)) {
     handle_snd_command(strrow.substring(3));
+  }
+  if (strrow.startsWith("FLU",0)) {
+    strip.show();
   }
 }
 

@@ -6,6 +6,8 @@ import os.path as op
 
 import ConfigParser
 import gocept.remoteleds.client
+import jenkins, fancy
+from .log import log
 
 CONFIG = "config"
 SNR = "SNR"
@@ -14,7 +16,8 @@ BASEURL = "baseurl"
 TYPE = "type"
 USER = "user"
 PASSWORD = "password"
-JENKINS = "jenkins"
+AVAILABLE = {"jenkins": jenkins.JenkinsClient,
+             "fancy": fancy.FancyClient}
 
 
 class Config(object):
@@ -28,8 +31,8 @@ class Config(object):
             self.config.read(self.path)
             sections = self.config.sections()
             self.client_names = [s for s in sections if s != CONFIG]
-            print "Sections: %s" % sections
-            print "Clients:  %s" % self.client_names
+            log.debug("Sections: %s" % sections)
+            log.debug("Clients:  %s" % self.client_names)
 
             self.read_base_configuration()
             self.read_client_configurations()
@@ -40,7 +43,7 @@ class Config(object):
     def read_base_configuration(self):
         self.serial_number = self.config.get(CONFIG, SNR)
         self.led_count = int(self.config.get(CONFIG, LEDCOUNT))
-        print "SNR: %s, led_count: %s" % (self.serial_number, self.led_count)
+        log.debug("SNR: %s, led_count: %s" % (self.serial_number, self.led_count))
 
     def read_client_configurations(self):
         self.clients = []
