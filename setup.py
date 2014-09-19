@@ -41,6 +41,12 @@ setup(
         'requests',
         'setuptools',
     ],
+    extras_require={
+        'test': [
+            'mock',
+            'pytest',
+        ]
+    },
     entry_points = {
         'console_scripts': [
             'remoteleds = gocept.remoteleds.discovery:main',
