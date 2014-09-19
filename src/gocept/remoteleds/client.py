@@ -1,5 +1,6 @@
 import time
 import random
+from .log import log
 
 
 class Project(object):
@@ -16,6 +17,9 @@ class Project(object):
 
 
 class Client(object):
+
+    #update every x ticks
+    update_ticks = 50
 
     def __init__(self, connection, config):
         self.baseurl = config['baseurl']
@@ -36,11 +40,14 @@ class Client(object):
         """Implement in concrete client."""
         raise NotImplementedError()
 
-    def update(self):
+    def update(self, tick):
+        if tick % self.update_ticks != 0:
+            return
+        log.debug("Update {}".format(self.__class__.__name__))
         for project in self.projects:
             state = self.get_state_for_project(project)
             project.push_state(state)
-            print("{}: {} (LED {})".format(
+            log.debug("{}: {} (LED {})".format(
                 project.name, project.state, project.led))
             self.send_state(self.connection, project)
 
