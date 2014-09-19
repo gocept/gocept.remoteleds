@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-0.1.1 (unreleased)
+0.1.1 (2014-09-19)
 ==================
 
 - Rediscover remoteleds when device is unplugged and plugged in again.
