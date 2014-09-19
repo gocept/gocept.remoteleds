@@ -6,9 +6,9 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 setup(
-    name='gocept.remoteled',
+    name='gocept.remoteleds',
     version='0.1.0.dev0',
-    url='https://vcs.verdi4you.de/gocept.remoteled',
+    url='https://bitbucket.org/gocept/gocept.remoteleds',
     license='GPL',
     description='XXX',
     author='union.cms developers',
