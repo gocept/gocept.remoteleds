@@ -30,7 +30,7 @@ void set_led(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
 void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
-  Serial.begin(9600);
+  Serial.begin(38400);
   while (!handshaken) {
     delay(1000);
     heartbeat();

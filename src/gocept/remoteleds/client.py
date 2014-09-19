@@ -19,7 +19,8 @@ class Project(object):
 class Client(object):
 
     #update every x ticks
-    update_ticks = 50
+    update_ticks = 100
+    support_state_changes = True
 
     def __init__(self, connection, config):
         self.baseurl = config['baseurl']
@@ -53,15 +54,16 @@ class Client(object):
 
     def send_state(self, connection, project):
         if (project.state != project.last_state
-                and project.last_state is not None):
+                and project.last_state is not None
+                and self.support_state_changes):
             new_message = self.calculate_message_from_state(
                 project.led, project.state)
             old_message = self.calculate_message_from_state(
                 project.led, project.last_state)
             sound = self.get_sound_for_state(project.state)
-
-            connection.write('SND{}'.format(sound))
-            connection.flushInput()
+            if sound is not None:
+                connection.write('SND{}'.format(sound))
+                connection.flushInput()
             for i in range(10):
                 connection.write(new_message)
                 connection.flushInput()

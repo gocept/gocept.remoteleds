@@ -8,7 +8,7 @@ import gocept.remoteleds.client
 import gocept.remoteleds.config
 from .log import log
 
-BAUD = 9600
+BAUD = 38400
 SCAN_DELAY_IN_S = 1
 
 
@@ -60,11 +60,12 @@ def connect(cfg, dev):
                 for cli in clients:
                     cli.update(tick)
                 connection.write("FLU\n")
-                time.sleep(0.1)
-                if tick == 100:
+                time.sleep(0.05)
+                if tick == 105:
                     tick = 0
             connection.close()
         except serial.serialutil.SerialException as e:
+            log.debug(str(e))
             dev = discover_loop(cfg.serial_number)
             connect(cfg, dev)
 

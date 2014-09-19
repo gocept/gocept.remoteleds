@@ -6,7 +6,7 @@ import os.path as op
 
 import ConfigParser
 import gocept.remoteleds.client
-import jenkins
+import jenkins, fancy
 from .log import log
 
 CONFIG = "config"
@@ -16,7 +16,8 @@ BASEURL = "baseurl"
 TYPE = "type"
 USER = "user"
 PASSWORD = "password"
-AVAILABLE = {"jenkins": jenkins.JenkinsClient}
+AVAILABLE = {"jenkins": jenkins.JenkinsClient,
+             "fancy": fancy.FancyClient}
 
 
 class Config(object):
