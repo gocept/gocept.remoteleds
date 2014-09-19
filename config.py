@@ -8,7 +8,6 @@ import ConfigParser
 import client
 
 
-CONFIG_FILE = "example.ini"
 CONFIG = "config"
 SNR = "SNR"
 LEDCOUNT = "ledcount"
@@ -78,8 +77,3 @@ class Config(object):
     def __str__(self):
         return "Config(SNR={},led_count={},clients={})".format(
             self.SNR, self.led_count, self.clients)
-
-
-if __name__ == '__main__':
-    config = Config.load_config(CONFIG_FILE)
-    print config
