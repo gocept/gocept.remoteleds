@@ -17,7 +17,24 @@ def main():
     cfg.load()
 
     dev = discover_loop(cfg.serial_number)
+    connect(cfg, dev)
 
+
+def discover_loop(snr):
+    dev = None
+    while dev is None:
+        dev = discover(snr)
+        time.sleep(SCAN_DELAY_IN_S)
+    return dev
+
+def discover(serial_number):
+    comports = list(serial.tools.list_ports.comports())
+    for port in comports:
+        if "SNR={}".format(serial_number) in port[2]:
+            return port[0]
+    return None
+
+def connect(cfg, dev):
     if dev is not None:
         try:
             connection = serial.Serial(dev, BAUD)
@@ -49,22 +66,8 @@ def main():
                 time.sleep(5)
             connection.close()
         except serial.serialutil.SerialException as e:
-            print(e)
-
-
-def discover_loop(snr):
-    dev = None
-    while dev is None:
-        dev = discover(snr)
-        time.sleep(SCAN_DELAY_IN_S)
-    return dev
-
-def discover(serial_number):
-    comports = list(serial.tools.list_ports.comports())
-    for port in comports:
-        if "SNR={}".format(serial_number) in port[2]:
-            return port[0]
-    return None
+            dev = discover_loop(cfg.serial_number)
+            connect(cfg, dev)
 
 
 if __name__ == '__main__':
