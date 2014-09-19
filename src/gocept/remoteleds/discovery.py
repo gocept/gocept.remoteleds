@@ -53,11 +53,8 @@ def connect(cfg, dev):
 
             clients = []
             for client_cfg in cfg.clients:
-                if gocept.remoteleds.config.JENKINS in client_cfg['type']:
-                    clients.append(gocept.remoteleds.client.JenkinsClient(
-                        connection=connection, baseurl=client_cfg['baseurl'],
-                        user=client_cfg['user'], passwd=client_cfg['password'],
-                        projects=client_cfg['projects']))
+                client_cls = gocept.remoteleds.config.AVAILABLE[client_cfg['type']]
+                clients.append(client_cls(connection=connection, config=client_cfg))
 
             while True:
                 for cli in clients:

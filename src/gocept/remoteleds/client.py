@@ -1,4 +1,3 @@
-import requests
 import time
 import random
 
@@ -18,12 +17,12 @@ class Project(object):
 
 class Client(object):
 
-    def __init__(self, connection, baseurl, projects, user=None, passwd=None):
+    def __init__(self, connection, config):
+        self.baseurl = config['baseurl']
+        self.user = config['user']
+        self.passwd = config['password']
+        self.projects = config['projects']
         self.connection = connection
-        self.baseurl = baseurl
-        self.projects = projects
-        self.user = user
-        self.passwd = passwd
 
     def get_state_for_project(self, project):
         """Implement in concrete client."""
@@ -72,34 +71,3 @@ class Client(object):
         red, green, blue = self.get_color_for_state(state)
         return "LED%02d%03d%03d%03d\n" % (led, red, green, blue)
 
-
-class JenkinsClient(Client):
-
-    def get_state_for_project(self, project):
-        url = "{}/job/{}/api/json".format(self.baseurl, project.name)
-        if self.user and self.passwd:
-            response = requests.get(url, auth=(self.user, self.passwd))
-        else:
-            response = requests.get(url)
-
-        # if random.randint(0, 1):
-        #     return 'blue'
-        # else:
-        #     return 'red'
-        return response.json()['color']
-
-    def get_color_for_state(self, state):
-        if 'red' in state:
-            return 128, 0, 0
-        elif 'blue' in state:
-            return 0, 128, 0
-        elif 'yellow' in state:
-            return 128, 128, 0
-        else:
-            return 0, 0, 128
-
-    def get_sound_for_state(self, state):
-        if 'blue' in state:
-            return 'fixed'
-        else:
-            return 'broken'
