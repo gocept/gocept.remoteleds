@@ -10,7 +10,7 @@ setup(
     version='0.1.0.dev0',
     url='https://bitbucket.org/gocept/gocept.remoteleds',
     license='MIT',
-    description='XXX',
+    description='Can speak to an Arduino and set color of connected LEDs.',
     author='Daniel Havlik, Florian Pilz and Oliver Zscheyge',
     author_email='dh@gocept.com',
     long_description=(read('README.rst')
@@ -21,26 +21,29 @@ setup(
                       read('CHANGES.rst')
                       ),
     classifiers=[
-        'Environment :: Web Environment',
-        'Framework :: Zope2',
-        'Framework :: Zope3',
-        'License :: OSI Approved :: Gnu public license',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python :: 2.7',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Topic :: Internet :: WWW/HTTP :: Site Management',
-        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Programming Language :: C',
+        'Topic :: Software Development :: Testing',
+        'Topic :: Software Development :: Quality Assurance',
     ],
-    keywords='union.cms zope zope2 zope3',
+    keywords='arduino led adafruit neopixel',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     namespace_packages=['gocept'],
     include_package_data=True,
     install_requires=[
+        'pyserial',
+        'requests',
         'setuptools',
     ],
     entry_points = {
         'console_scripts': [
-            'run = gocept.remoteleds.discovery:main',
+            'remoteleds = gocept.remoteleds.discovery:main',
         ]
     },
     zip_safe=False,
