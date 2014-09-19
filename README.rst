@@ -1,3 +1,3 @@
 ================
-gocept.remoteled
+gocept.remoteleds
 ================
