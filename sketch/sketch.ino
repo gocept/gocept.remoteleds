@@ -33,20 +33,19 @@ void set_led(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
 
 
 void setup() {
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
   Serial.begin(9600);
   while (!handshaken) {
     delay(1000);
     heartbeat();
     while (Serial.available()) {
-      ack = Serial.read();
-      if (ack == '1') {
-        handshaken = true;
-        Serial.println("READY");
-      }
+      int num = Serial.parseInt();
+      handshaken = true;
+      Serial.println("READY");
     }
   }
+  Adafruit_NeoPixel strip = Adafruit_NeoPixel(num, PIN, NEO_GRB + NEO_KHZ800);
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
 }
 
 void heartbeat() {
