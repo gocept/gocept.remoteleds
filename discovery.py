@@ -30,7 +30,7 @@ def main():
                 time.sleep(0.1)
 
             print("Answer Handshake")
-            connection.write("1\n")
+            connection.write("14")
             connection.flushInput()
 
             while ("READY" not in connection.readline()):
