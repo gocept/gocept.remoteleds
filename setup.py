@@ -9,10 +9,10 @@ setup(
     name='gocept.remoteleds',
     version='0.1.0.dev0',
     url='https://bitbucket.org/gocept/gocept.remoteleds',
-    license='GPL',
+    license='MIT',
     description='XXX',
-    author='union.cms developers',
-    author_email='dev@unioncms.org',
+    author='Daniel Havlik, Florian Pilz and Oliver Zscheyge',
+    author_email='dh@gocept.com',
     long_description=(read('README.rst')
                       + '\n\n' +
                       'Detailed Documentation\n'
@@ -40,7 +40,7 @@ setup(
     ],
     entry_points = {
         'console_scripts': [
-            'run = gocept.remoteled.discovery:main',
+            'run = gocept.remoteleds.discovery:main',
         ]
     },
     zip_safe=False,
