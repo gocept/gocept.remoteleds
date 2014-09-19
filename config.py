@@ -2,6 +2,8 @@
 # coding: utf-8
 
 
+import os.path as op
+
 import ConfigParser
 import client
 
@@ -23,15 +25,20 @@ class Config(object):
         self.path = path
 
     def load(self):
-        self.config = ConfigParser.SafeConfigParser()
-        self.config.read(self.path)
-        sections = self.config.sections()
-        self.client_names = [s for s in sections if s != CONFIG]
-        print "Sections: %s" % sections
-        print "Clients:  %s" % self.client_names
+        if op.isfile(self.path):
+            self.config = ConfigParser.SafeConfigParser()
+            self.config.read(self.path)
+            sections = self.config.sections()
+            self.client_names = [s for s in sections if s != CONFIG]
+            print "Sections: %s" % sections
+            print "Clients:  %s" % self.client_names
 
-        self.read_base_configuration()
-        self.read_client_configurations()
+            self.read_base_configuration()
+            self.read_client_configurations()
+            return True
+        else:
+            print("No config file named {} found! See example.ini to get started!".format(self.path))
+            return False
 
     def read_base_configuration(self):
         self.serial_number = self.config.get(CONFIG, SNR)
