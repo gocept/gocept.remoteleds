@@ -16,10 +16,7 @@ def main():
     cfg = gocept.remoteled.config.Config()
     cfg.load()
 
-    dev = None
-    while dev is None:
-        dev = discover(cfg.serial_number)
-        time.sleep(SCAN_DELAY_IN_S)
+    dev = discover_loop(cfg.serial_number)
 
     if dev is not None:
         try:
@@ -30,7 +27,7 @@ def main():
                 time.sleep(0.1)
 
             print("Answer Handshake")
-            connection.write("1\n")
+            connection.write("14")
             connection.flushInput()
 
             while ("READY" not in connection.readline()):
@@ -54,6 +51,13 @@ def main():
         except serial.serialutil.SerialException as e:
             print(e)
 
+
+def discover_loop(snr):
+    dev = None
+    while dev is None:
+        dev = discover(snr)
+        time.sleep(SCAN_DELAY_IN_S)
+    return dev
 
 def discover(serial_number):
     comports = list(serial.tools.list_ports.comports())
