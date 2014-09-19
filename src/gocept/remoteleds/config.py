@@ -8,7 +8,6 @@ import ConfigParser
 import gocept.remoteleds.client
 import jenkins
 
-
 CONFIG = "config"
 SNR = "SNR"
 LEDCOUNT = "ledcount"
@@ -21,7 +20,7 @@ AVAILABLE = {"jenkins": jenkins.JenkinsClient}
 
 class Config(object):
 
-    def __init__(self, path='config.ini'):
+    def __init__(self, path='remoteleds.ini'):
         self.path = path
 
     def load(self):
@@ -36,7 +35,8 @@ class Config(object):
             self.read_base_configuration()
             self.read_client_configurations()
         else:
-            raise IOError("No config file named {} found! See example.ini to get started!".format(self.path))
+            self.write_example_configuration()
+            raise IOError("No config file found! Wrote example to {}! Try again now!".format(self.path))
 
     def read_base_configuration(self):
         self.serial_number = self.config.get(CONFIG, SNR)
@@ -75,6 +75,20 @@ class Config(object):
                 projects.append(
                     gocept.remoteleds.client.Project(name=project, led=led_nr))
         return projects
+
+    def write_example_configuration(self):
+        with open(self.path, "w") as f:
+            f.write("""[config]
+SNR=7523233343535130C120
+ledcount=14
+
+[jenkinsA]
+type=jenkins
+baseurl=https://builds.gocept.com/
+led0=pycountry
+led1=gocept.jsform
+""")
+        pass
 
     def __str__(self):
         return "Config(SNR={},led_count={},clients={})".format(
