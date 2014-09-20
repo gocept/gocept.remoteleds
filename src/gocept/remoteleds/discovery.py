@@ -8,7 +8,7 @@ import gocept.remoteleds.client
 import gocept.remoteleds.config
 from .log import log
 
-BAUD = 38400
+BAUD = 57600
 SCAN_DELAY_IN_S = 1
 
 
@@ -28,6 +28,7 @@ def discover_loop(snr):
 
 def discover(serial_number):
     comports = list(serial.tools.list_ports.comports())
+    print comports
     for port in comports:
         if "SNR={}".format(serial_number) in port[2]:
             return port[0]
