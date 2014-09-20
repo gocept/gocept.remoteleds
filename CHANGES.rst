@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.0 (unreleased)
+1.0 (2014-09-20)
 ================
 
 - First working release ready for production use.
