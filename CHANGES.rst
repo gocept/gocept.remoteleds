@@ -2,8 +2,8 @@
 CHANGES
 =======
 
-0.1.2 (unreleased)
-==================
+1.0 (unreleased)
+================
 
 - First working release ready for production use.
 
