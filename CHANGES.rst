@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.3 (unreleased)
+1.3 (2014-09-20)
 ================
 
 - Change SNR in example config to something the more user friendly.

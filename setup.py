@@ -7,7 +7,7 @@ def read(*rnames):
 
 setup(
     name='gocept.remoteleds',
-    version='1.3.dev0',
+    version='1.3',
     url='https://bitbucket.org/gocept/gocept.remoteleds',
     license='MIT',
     description='Can speak to an Arduino and set color of connected LEDs.',
