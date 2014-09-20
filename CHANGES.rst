@@ -5,7 +5,8 @@ CHANGES
 1.1 (unreleased)
 ================
 
-- Nothing changed yet.
+- Better discovery.
+- Support for jenkins views.
 
 
 1.0 (2014-09-20)
