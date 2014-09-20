@@ -66,14 +66,17 @@ class Client(object):
                 connection.flushInput()
             for i in range(10):
                 connection.write(new_message)
+                connection.write("FLU\n")
                 connection.flushInput()
                 time.sleep(0.2)
                 connection.write(old_message)
+                connection.write("FLU\n")
                 connection.flushInput()
                 time.sleep(0.2)
 
         message = self.calculate_message_from_state(project.led, project.state)
         connection.write(message)
+        connection.write("FLU\n")
         connection.flushInput()
 
     def calculate_message_from_state(self, led, state):
