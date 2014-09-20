@@ -17,6 +17,7 @@ TYPE = "type"
 USER = "user"
 PASSWORD = "password"
 AVAILABLE = {"jenkins": jenkins.JenkinsClient,
+             "jenkins_view": jenkins.JenkinsViewClient,
              "fancy": fancy.FancyClient}
 
 
