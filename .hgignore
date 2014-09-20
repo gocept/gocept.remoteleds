@@ -9,5 +9,5 @@ local/
 .Python
 *.pyc
 *.egg-info/
-
+remoteleds.ini
 config.ini
