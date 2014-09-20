@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.1 (unreleased)
+1.1 (2014-09-20)
 ================
 
 - Better discovery.
