@@ -18,20 +18,31 @@ def main():
     dev = discover_loop(cfg.serial_number)
     connect(cfg, dev)
 
+def list_comports():
+    comports = list(serial.tools.list_ports.comports())
+    return [port for port in comports if 'SNR' in port[2]]
 
 def discover_loop(snr):
     dev = None
+    log.error('Scanning COM Ports.')
+    current_ports = []
     while dev is None:
-        dev = discover(snr)
+        new_comports = list_comports()
+        if current_ports == new_comports:
+            continue
+        log.error('COM Port scan result:\n{}'.format(
+                  '\n'.join(['{} {} {}'.format(*port) for port in new_comports])))
+        current_ports = new_comports
+        dev = discover(snr, current_ports)
         time.sleep(SCAN_DELAY_IN_S)
     return dev
 
-def discover(serial_number):
-    comports = list(serial.tools.list_ports.comports())
-    print comports
-    for port in comports:
+def discover(serial_number, current_ports):
+    for port in current_ports:
         if "SNR={}".format(serial_number) in port[2]:
             return port[0]
+        else:
+            log.error('No COM Port matching SNR {} found.'.format(serial_number))
     return None
 
 def connect(cfg, dev):
