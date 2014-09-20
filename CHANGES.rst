@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-1.2 (unreleased)
+1.2 (2014-09-20)
 ================
 
 - Improved config file handling.
