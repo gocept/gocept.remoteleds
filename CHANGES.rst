@@ -5,7 +5,7 @@ CHANGES
 1.3 (unreleased)
 ================
 
-- Nothing changed yet.
+- Change SNR in example config to something the more user friendly.
 
 
 1.2 (2014-09-20)

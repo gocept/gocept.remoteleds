@@ -86,7 +86,7 @@ class Config(object):
     def write_example_configuration(self):
         with open(self.path, "w") as f:
             f.write("""[config]
-SNR=7523233343535130C120
+SNR=change_me
 ledcount=14
 
 [jenkins_single_project]
