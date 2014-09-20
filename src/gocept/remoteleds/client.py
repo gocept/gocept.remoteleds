@@ -51,6 +51,8 @@ class Client(object):
             log.debug("{}: {} (LED {})".format(
                 project.name, project.state, project.led))
             self.send_state(self.connection, project)
+        self.connection.write("FLU\n")
+        self.connection.flushInput()
 
     def send_state(self, connection, project):
         if (project.state != project.last_state
@@ -76,8 +78,6 @@ class Client(object):
 
         message = self.calculate_message_from_state(project.led, project.state)
         connection.write(message)
-        connection.write("FLU\n")
-        connection.flushInput()
 
     def calculate_message_from_state(self, led, state):
         red, green, blue = self.get_color_for_state(state)

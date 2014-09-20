@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
-
+import argparse
+import os
 import serial
 import serial.tools.list_ports
 import time
@@ -12,8 +13,8 @@ BAUD = 57600
 SCAN_DELAY_IN_S = 1
 
 
-def main():
-    cfg = gocept.remoteleds.config.Config()
+def main(config_path):
+    cfg = gocept.remoteleds.config.Config(os.path.expanduser(config_path))
     cfg.load()
     dev = discover_loop(cfg.serial_number)
     connect(cfg, dev)
@@ -83,6 +84,16 @@ def connect(cfg, dev):
             dev = discover_loop(cfg.serial_number)
             connect(cfg, dev)
 
+def entry():
+    parser = argparse.ArgumentParser(description='Client for RemoteLEDs Hardware.')
+    parser.add_argument(
+        '-c', '--config', type=str,
+        help='Location for configuration file. '
+             'Defaults to {}'.format(os.path.expanduser('~/remoteleds.ini')),
+        default='~/remoteleds.ini')
+    args = parser.parse_args()
+    main(args.config)
+
 
 if __name__ == '__main__':
-    main()
+    entry()

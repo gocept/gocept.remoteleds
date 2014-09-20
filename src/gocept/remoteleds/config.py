@@ -3,8 +3,8 @@
 
 
 import os.path as op
-
 import ConfigParser
+import sys
 import gocept.remoteleds.client
 import jenkins, fancy
 from .log import log
@@ -23,11 +23,12 @@ AVAILABLE = {"jenkins": jenkins.JenkinsClient,
 
 class Config(object):
 
-    def __init__(self, path='remoteleds.ini'):
+    def __init__(self, path='~/remoteleds.ini'):
         self.path = path
 
     def load(self):
         if op.isfile(self.path):
+            log.info('Reading configuration from {}.'.format(self.path))
             self.config = ConfigParser.SafeConfigParser()
             self.config.read(self.path)
             sections = self.config.sections()
@@ -39,7 +40,10 @@ class Config(object):
             self.read_client_configurations()
         else:
             self.write_example_configuration()
-            raise IOError("No config file found! Wrote example to {}! Try again now!".format(self.path))
+            log.error(
+                "No config file found! Wrote example to {}. "
+                "Try again now!".format(self.path))
+            sys.exit()
 
     def read_base_configuration(self):
         self.serial_number = self.config.get(CONFIG, SNR)
@@ -97,7 +101,7 @@ type=jenkins_view
 baseurl=https://builds.gocept.com/
 #empty value displays combined status of *all* jobs
 led3=
-led4=view/selenium
+led4=selenium
 """)
         pass
 

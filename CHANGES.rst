@@ -5,7 +5,7 @@ CHANGES
 1.2 (unreleased)
 ================
 
-- Nothing changed yet.
+- Improved config file handling.
 
 
 1.1 (2014-09-20)

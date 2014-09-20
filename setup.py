@@ -49,7 +49,7 @@ setup(
     },
     entry_points = {
         'console_scripts': [
-            'remoteleds = gocept.remoteleds.discovery:main',
+            'remoteleds = gocept.remoteleds.discovery:entry',
         ]
     },
     zip_safe=False,

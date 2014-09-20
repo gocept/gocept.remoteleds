@@ -18,6 +18,11 @@ class JenkinsClient(Client):
             raise
 
     def get_state_for_project(self, project):
+        #import random
+        #if random.randint(0, 1):
+        #    return 'blue'
+        #else:
+        #    return 'red'
         try:
             state = self.get_status(project)
             return state
@@ -25,11 +30,7 @@ class JenkinsClient(Client):
             log.error('Error while requesting data from jenkins: {}'.format(
                 str(e)))
             return 'violet'
-        #import random
-        #if random.randint(0, 1):
-        #    return 'blue'
-        #else:
-        #    return 'red'
+
 
 
     def get_color_for_state(self, state):
