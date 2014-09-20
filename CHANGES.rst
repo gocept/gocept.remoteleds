@@ -5,7 +5,7 @@ CHANGES
 0.1.2 (unreleased)
 ==================
 
-- Nothing changed yet.
+- First working release ready for production use.
 
 
 0.1.1 (2014-09-19)
