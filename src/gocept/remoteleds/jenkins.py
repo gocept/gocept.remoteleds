@@ -67,11 +67,14 @@ class JenkinsViewClient(JenkinsClient):
             response = requests.get(url)
         try:
             result = response.json()
+            state = 'blue'
             for job in result['jobs']:
                 jobstate = job.get('color', 'red')
-                if 'red' in jobstate or 'yellow' in jobstate:
+                if 'red' in jobstate:
                     return 'red'
-            return 'blue'
+                if 'yellow' in jobstate:
+                    state = jobstate
+            return state
         except:
             log.error('Error while returning job result.')
             log.error(response.text)
