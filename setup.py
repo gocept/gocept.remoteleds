@@ -3,12 +3,15 @@ from setuptools import setup, find_packages
 
 
 def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    """Read in file content."""
+    with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
+        return f.read()
+
 
 setup(
     name='gocept.remoteleds',
     version='1.4.dev0',
-    url='https://bitbucket.org/gocept/gocept.remoteleds',
+    url='https://github.com/gocept/gocept.remoteleds',
     license='MIT',
     description='Can speak to an Arduino and set color of connected LEDs.',
     author='Daniel Havlik, Florian Pilz and Oliver Zscheyge',
@@ -47,7 +50,7 @@ setup(
             'pytest',
         ]
     },
-    entry_points = {
+    entry_points={
         'console_scripts': [
             'remoteleds = gocept.remoteleds.discovery:entry',
         ]

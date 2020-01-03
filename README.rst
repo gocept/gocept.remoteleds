@@ -5,7 +5,7 @@ gocept.remoteleds
 Preparing a developer machine
 -----------------------------
 
->>> hg clone https://bitbucket.org/gocept/gocept.remoteleds
+>>> git clone https://github.com/gocept/gocept.remoteleds
 >>> cd gocept.remoteleds
 >>> virtualenv .
 >>> bin/pip install -e .[test]
